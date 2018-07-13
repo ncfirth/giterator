@@ -1,66 +1,20 @@
 import inspect
-import re
+from utils import remove_human_lines, hash_fn
+import os
 
 
-def giterator(func, *args, **kwargs):
+def setup(func):
+    f_file = inspect.getfile(func)
+    f_dir = f_file[:f_file.rfind('/')]
+
+
+def giterator(func):
     func_string = inspect.getsource(func)
-    def wrapper():
+    clean_string = remove_human_lines(func_string)
+    func_hash = hash_fn(clean_string)
+    print(func_hash)
+    def wrapper(*args, **kwargs):
         pass
     return wrapper
 
 
-def dummy_func(x, y, z):
-    """Summary
-    
-    Parameters
-    ----------
-    x : TYPE
-        Description
-    y : TYPE
-        Description
-    z : TYPE
-        Description
-    
-    Returns
-    -------
-    TYPE
-        Description
-    """
-    s = x * y * z #some comment
-    s = s ** 0.33
-
-    # useless line
-    return s
-
-
-def remove_pattern(string, pattern):
-    new_string = string.split('\n')
-    new_string = [x for x in new_string if re.match(pattern, x) is None]
-    return '\n'.join(new_string)
-
-def remove_spacing(string):
-    new_string = string.split('\n')
-    whitespace = re.compile('^\s*$|^$')
-    new_string = [x for x in new_string if re.match(whitespace, x) is None]
-    return '\n'.join(new_string)
-
-
-def remove_comments(string):
-    new_string = re.sub('^\s+\"\"\"\.\"\"\"$')
-    comments = re.compile('^\s+#')
-    return remove_pattern(string, comments)
-
-def remove_human_lines(string):
-    whitespace = re.compile('^\s*$|^$')
-    comments = re.compile('^\s+#|^\s+\"\"\"')
-
-
-
-
-def main():
-    f_str = inspect.getsource(dummy_func)
-    print(remove_comments(f_str))
-
-
-if __name__ == '__main__':
-    main()
