@@ -13,13 +13,13 @@ def dummy_func(x, y, z):
     z : TYPE
         Description
     
-    Returnss
+    Returnssdsfs;ohwer
     -------
     TYPE
         Description
     """
     s = x * y * z #some comment
-    s = s ** 0.36
+    s = s ** 0.33
 
     # useless line
     return s

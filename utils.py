@@ -5,7 +5,6 @@ import re
 # There's a licence here: https://gist.github.com/Cilyan/9424144
 
 
-
 def fnv64(string):
     res = 0xcbf29ce484222325
     for byte in string:
@@ -33,3 +32,11 @@ def remove_human_lines(string):
     new_string = re.sub(multiline_comment, '', string)
     new_string = re.sub('\n{2,}', '\n', new_string)
     return new_string
+
+
+def get_func_dir_from_file(func_file):
+    if func_file.rfind('/') > -1:
+        func_dir = func_file[:]
+    else:
+        func_dir = '.'
+    return func_dir
