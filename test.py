@@ -1,7 +1,7 @@
 from giterator import giterator
 
 @giterator
-def dummy_func(x, y, z):
+def dummy_func(x, y, z=5):
     """Summary
     
     Parameters
@@ -26,7 +26,8 @@ def dummy_func(x, y, z):
 
 
 def main():
-    dummy_func(1, 2, 3)
+    dummy_func(7, 2, z=3)
+    dummy_func(8, 5, z=3)
 
 if __name__ == '__main__':
     main()

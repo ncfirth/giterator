@@ -4,6 +4,7 @@ import os
 import pandas as pd
 import joblib
 from datetime import datetime
+from functools import wraps
 
 
 
@@ -51,13 +52,31 @@ def get_version(func, versions):
     joblib.dump(versions, f'{func_dir}/.giterator/function_versions.pkl')
     return func.__name__, func_file, this_version
 
+
+def get_version_call_history(contained_in, func_name, version, func_dir):
+    version_history_f = (f'{func_dir}/.giterator/'
+                         f'{contained_in.replace(".py", "")}_'
+                         f'{func_name}_{version}.txt')
+    if not os.path.exists(version_history_f):
+        with open(version_history_f, 'w') as f:
+            f.write('input;output\n')
+    return version_history_f
+
  
 def giterator(func):
+    sig = inspect.signature(func)
     versions = version_setup(func)
-    func_name, func_dir, func_version = get_version(func, versions)
-    
+    func_name, func_file, func_version = get_version(func, versions)
+    version_history_f = get_version_call_history(func_file,func_name,
+                                                 func_version, '.')
+    @wraps(func)
     def wrapper(*args, **kwargs):
-        pass
+        f = open(version_history_f, 'a+')
+        bound_args = sig.bind(*args, **kwargs)
+        result = func(*args, **kwargs)
+        f.write(f'{bound_args};{result}\n')
+        f.close()
+        return result
     return wrapper
 
 
