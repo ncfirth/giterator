@@ -46,7 +46,8 @@ def remove_spacing(string):
 
 
 def remove_comments(string):
-    comments = re.compile('^\s+#|^\s+\"\"\"')
+    new_string = re.sub('^\s+\"\"\"\.\"\"\"$')
+    comments = re.compile('^\s+#')
     return remove_pattern(string, comments)
 
 def remove_human_lines(string):
