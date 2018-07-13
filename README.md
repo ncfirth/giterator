@@ -1,6 +1,6 @@
 Giterator
 =========
-Small decorator to do version control on individual functions.
+Lightweight decorator to do version control on individual functions.
 
 Usage:
 
