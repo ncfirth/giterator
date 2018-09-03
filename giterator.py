@@ -9,6 +9,7 @@ from functools import wraps
 
 
 def version_setup(func):
+	# test comment
     func_file = inspect.getfile(func)
     func_dir = get_func_dir_from_file(func_file)
     giterator_dir = f'{func_dir}/.giterator'
